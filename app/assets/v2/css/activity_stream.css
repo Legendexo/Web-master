@@ -1,0 +1,45 @@
+
+#activity_stream .avatar {
+  width: 50px;
+  height: 50px;
+  margin: 0px auto;
+  border-radius: 50px;
+  margin-top: 0px;
+}
+
+.box {
+  padding: 1.2rem;
+  border-bottom: 1px solid #DBDBDB;
+}
+
+#avatar_url .avatar {
+  width: 80px;
+  height: 80px;
+}
+
+.funder-avatar,
+.activity-avatar {
+  text-align: center;
+}
+
+.funder-avatar,
+.activity div {
+  margin: auto;
+}
+
+.last-icon {
+  font-size: 30px;
+  color: #0D0764;
+}
+
+.tag {
+  display: inline-block;
+}
+
+.bounty_removed_by_funder .activity-tags .tag,
+.bounty_removed_by_staff .activity-tags .tag,
+.bounty_abandonment_escalation_to_mods .activity-tags .tag,
+.bounty_abandonment_warning .activity-tags .tag,
+.activity.new_kudos .activity-tags .tag {
+  display: none;
+}

@@ -1,0 +1,89 @@
+language: python
+python: 3.7
+dist: xenial
+sudo: true
+
+node_js:
+  - "9"
+
+os:
+  - linux
+
+services:
+  - docker
+  - postgresql
+  - redis-server
+
+cache:
+  directories:
+    - $HOME/.cache/pip
+    - node_modules
+
+jobs:
+  include:
+    # Lint and test the repository.
+    - stage: lint-test
+      before_script:
+        - psql -c 'create database testdb;' -U postgres
+      script:
+        # Setup Env.
+        - cp app/app/travis.env app/app/.env
+        - pip install pip setuptools --upgrade
+        - pip install codecov
+        # Fetch and Install GeoIP database files.
+        - sudo apt-get update && sudo apt-get install -y libmaxminddb-dev
+        - wget http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.mmdb.gz
+        - wget http://geolite.maxmind.com/download/geoip/database/GeoLite2-Country.mmdb.gz
+        - gunzip GeoLite2-City.mmdb.gz && gunzip GeoLite2-Country.mmdb.gz
+        - sudo mkdir -p /opt/GeoIP/
+        - sudo mv *.mmdb /opt/GeoIP/
+        # Install libvips dependencies.
+        - sudo apt-get install -y libvips libvips-dev
+        # Install Node and Python dependencies.
+        - npm install
+        - pip install -r requirements/test.txt
+        - npm run eslint
+        - npm run stylelint
+        - pytest -p no:ethereum
+        # Publish CodeCov coverage results.
+        - codecov
+        # Generate Markdown documentation and static docs page.
+        - pydocmd build
+      env:
+        - PYTHONPATH="${TRAVIS_BUILD_DIR}/app/"
+        - DJANGO_SETTINGS_MODULE="app.settings"
+      deploy:
+        provider: pages
+        skip-cleanup: true
+        github-token: $GITHUB_TOKEN
+        keep-history: true
+        local-dir: _build/site
+        fqdn: docs.gitcoin.co
+        target-branch: gh-pages
+        on:
+          branch: master
+    # Deploy to Docker Hub and initiate a rolling update for web.
+    - stage: deploy-stage
+      if: branch = master AND NOT type = pull_request
+      script:
+        # Authenticate with Docker Hub.
+        - echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
+        # Pull Docker images.
+        - docker pull python:3.6-slim-jessie
+        # Build, tag, and publish the new gitcoin/web image.
+        - docker build -t gitcoin/web:${TRAVIS_BUILD_NUMBER} .
+        - docker push gitcoin/web:${TRAVIS_BUILD_NUMBER}
+        - docker tag gitcoin/web:${TRAVIS_BUILD_NUMBER} gitcoin/web:latest
+        - docker push gitcoin/web:latest
+    - stage: deploy-prod
+      if: branch = stable
+      script:
+        # Authenticate with Docker Hub.
+        - echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
+        # Pull Docker images.
+        - docker pull python:3.6-slim-jessie
+        # Build, tag, and publish the new gitcoin/web image.
+        - docker build -t gitcoin/web:${TRAVIS_BUILD_NUMBER} .
+        - docker push gitcoin/web:${TRAVIS_BUILD_NUMBER}
+        - docker tag gitcoin/web:${TRAVIS_BUILD_NUMBER} gitcoin/web:stable
+        - docker push gitcoin/web:stable

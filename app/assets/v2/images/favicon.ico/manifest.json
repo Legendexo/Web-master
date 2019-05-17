@@ -1,0 +1,19 @@
+{
+    "name": "Gitcoin",
+    "icons": [
+      {
+          "src": "/static/v2/images/favicon.ico/android-chrome-192x192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+      },
+      {
+          "src": "/static/v2/images/favicon.ico/android-chrome-512x512.png",
+          "sizes": "512x512",
+          "type": "image/png"
+      }
+    ],
+    "start_url": "https://gitcoin.co",
+    "theme_color": "#0d023b",
+    "background_color": "#0d023b",
+    "display": "standalone"
+}

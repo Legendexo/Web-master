@@ -1,0 +1,34 @@
+{% comment %}
+  Copyright (C) 2018 Gitcoin Core
+
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU Affero General Public License as published
+  by the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU Affero General Public License for more details.
+
+  You should have received a copy of the GNU Affero General Public License
+  along with this program. If not, see <http://www.gnu.org/licenses/>.
+{% endcomment %}
+{% load i18n static %}
+<div class="row text-center my-5">
+  <div class="col-12 mt-5 mx-auto col-md-6">
+    <img class="obiwan my-4" src="{% static "v2/images/obiwan-bot.svg" %}">
+    <h1 class="font-title-xl mt-4 mb-2">{% trans "This is not the profile you’re looking for" %}</h1>
+    <p class="font-subheader mt-4 mb-0 font-weight-semibold py-3">
+      {% trans "This profile either doesn’t exist, is not a member of Gitcoin, or the user has chosen not to make their profile available." %}
+    </p>
+  </div>
+  <div class="col-12 mb-5">
+    {% trans "Try looking for their profile on" %}
+    <a rel="noreferrer" target="_blank" href="https://github.com/search?q={{ profile.handle }}&type=Users">
+      Github
+    </a>
+    {% trans "or Contact us on" %}
+    <a rel="noreferrer" target="_blank" href="https://gitcoincommunity.slack.com">Slack</a>
+  </div>
+</div>

@@ -1,0 +1,14 @@
+{
+    "name": "Gitcoin",
+    "icons": [
+      {
+          "src": "/static/v2/images/favicon_local.ico/android-chrome-192x192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+      }
+    ],
+    "start_url": "http://localhost:8000",
+    "theme_color": "#0d023b",
+    "background_color": "#0d023b",
+    "display": "standalone"
+}

@@ -1,0 +1,24 @@
+repos:
+- repo: local
+  hooks:
+  - id: eslint
+    name: eslint
+    language: system
+    entry: sh -c 'npm run eslint:fix'
+    files: .js$
+- repo: local
+  hooks:
+  - id: stylelint
+    name: stylelint
+    language: system
+    entry: sh -c 'npm run stylelint:fix'
+    files: .css$
+- repo: git://github.com/pre-commit/mirrors-isort
+  sha: 'v4.3.4'
+  hooks:
+  - id: isort
+    args:
+      - --recursive
+      - --settings-path
+      - ./setup.cfg
+      - .
