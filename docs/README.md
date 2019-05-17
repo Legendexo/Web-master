@@ -10,7 +10,7 @@ Gitcoin Grows Open Source. Learn more at [https://gitcoin.co](https://gitcoin.co
 
 # web repo
 
-[![Build Status](https://travis-ci.org/Legendexo/Web-master/builds/533981036)](https://travis-ci.org/gitcoinco/web)
+[![Build Status](https://travis-ci.org/Legendexo/Web-master)](https://travis-ci.org/gitcoinco/web)
 [![codecov](https://codecov.io/gh/gitcoinco/web/branch/master/graph/badge.svg)](https://codecov.io/gh/gitcoinco/web)
 [![Waffle.io - Columns and their card count](https://badge.waffle.io/gitcoinco/web.svg?columns=all)](https://waffle.io/gitcoinco/web)
 
